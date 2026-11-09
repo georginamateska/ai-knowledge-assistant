@@ -1,0 +1,19 @@
+<aside class="sidebar">
+    <div class="logo">
+        <span class="logo-icon">🧠</span>
+        <span class="logo-text">AI Knowledge</span>
+    </div>
+
+    <nav>
+        @for (item of navItems; track item.path){
+            <a 
+            class="nav-link"
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            >
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span>{{ item.label }}</span>
+            </a>
+        }
+    </nav>
+</aside>
