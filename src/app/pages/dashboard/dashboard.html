@@ -1,1 +1,37 @@
-<p>dashboard works!</p>
+<h1>Dashboard</h1>
+<p class="subtitle">Overview of your documents and activity.</p>
+
+<section class="stats">
+  @for (stat of stats; track stat.label) {
+    <div class="stat-card">
+      <span class="stat-icon">{{ stat.icon }}</span>
+      <div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  }
+</section>
+
+<section class="recent">
+  <h2>Recent documents</h2>
+
+  @if (recentDocuments.length === 0) {
+    <p class="empty">No documents yet. Upload your first PDF to get started.</p>
+  } @else {
+    <ul class="doc-list">
+      @for (doc of recentDocuments; track doc.id) {
+        <li class="doc-row">
+          <div>
+            <div class="doc-name">{{ doc.name }}</div>
+            <div class="doc-meta">
+              {{ doc.pages }} pages · {{ doc.sizeMb }} MB ·
+              {{ doc.uploadedAt | date: 'mediumDate' }}
+            </div>
+          </div>
+          <span [class]="'status ' + doc.status">{{ doc.status }}</span>
+        </li>
+      }
+    </ul>
+  }
+</section>
