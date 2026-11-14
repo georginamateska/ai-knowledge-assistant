@@ -11,19 +11,12 @@ import { MOCK_DOCUMENTS } from '../../data/mock-documents';
 export class Dashboard {
   documents = MOCK_DOCUMENTS;
 
-  stats = [
-    { label: 'Documents uploaded', value: this.documents.length, icon: '📄' },
-    {
-      label: 'Total pages',
-      value: this.documents.reduce((sum, d) => sum + d.pages, 0),
-      icon: '📖',
-    },
-    {
-      label: 'Ready for questions',
-      value: this.documents.filter((d) => d.status === 'ready').length,
-      icon: '✅',
-    },
-  ];
+ totalDocuments = this.documents.length;
+  totalPages = this.documents.reduce((sum, d) => sum + d.pages, 0);
+  readyCount = this.documents.filter((d) => d.status === 'ready').length;
+  readyPercent = this.totalDocuments
+    ? Math.round((this.readyCount / this.totalDocuments) * 100)
+    : 0;
 
   recentDocuments = [...this.documents]
     .sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt))

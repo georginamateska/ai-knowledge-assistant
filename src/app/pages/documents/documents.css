@@ -1,0 +1,101 @@
+h1 {
+  margin: 0;
+  color: var(--text-strong);
+}
+
+.subtitle {
+  margin: 4px 0 24px;
+  color: var(--text-muted);
+}
+
+.search {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  font-size: 14px;
+  background: var(--surface);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.doc-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.doc-row:last-child {
+  border-bottom: none;
+}
+
+.doc-info {
+  flex: 1;
+}
+
+.doc-name {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.doc-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.ready {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.status.processing {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.status.error {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+}
+
+.delete-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--danger-text);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--danger-text);
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: var(--danger-bg);
+}
+
+.empty {
+  color: var(--text-muted);
+}

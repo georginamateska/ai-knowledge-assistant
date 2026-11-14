@@ -1,19 +1,20 @@
 <aside class="sidebar">
-    <div class="logo">
-        <span class="logo-icon">🧠</span>
-        <span class="logo-text">AI Knowledge</span>
-    </div>
+  <span class="icon logo-icon"></span>
 
-    <nav>
-        @for (item of navItems; track item.path){
-            <a 
-            class="nav-link"
-            [routerLink]="item.path"
-            routerLinkActive="active"
-            >
-            <span class="nav-icon">{{ item.icon }}</span>
-            <span>{{ item.label }}</span>
-            </a>
-        }
-    </nav>
+  <nav>
+    @for (item of navItems; track item.path) {
+      <a
+        class="nav-link"
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [attr.title]="item.label"
+      >
+      @if (item.img) {
+        <img class="nav-img" [src]="item.img" [alt]="item.label" />
+      }@else{
+        <span class="icon">{{ item.icon }}</span>
+      }
+      </a>
+    }
+  </nav>
 </aside>

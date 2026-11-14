@@ -1,1 +1,30 @@
-<p>documents works!</p>
+<h1>Documents</h1>
+<p class="subtitle">Manage the PDFs you have uploaded.</p>
+
+<input class="search" type="text" placeholder="Search documents..." (input)="onSearch($event)" />
+
+@if (filteredDocuments().length === 0){
+<p class="empty">
+    @if (documents().length === 0){
+    No documents yet. Upload your first PDF to get started.
+    } @else {
+    No documents match your search.
+    }
+</p>
+} @else{
+<ul class="doc-list">
+    @for (doc of filteredDocuments(); track doc.id){
+    <il class="doc-row">
+        <div class="doc-info">
+            <div class="doc-name">📄 {{ doc.name }}</div>
+            <div class="doc-meta">
+                {{ doc.pages }} pages · {{ doc.sizeMb }} MB ·
+                {{ doc.uploadedAt | date: 'mediumDate' }}
+            </div>
+        </div>
+        <span [class]="'status ' + doc.status">{{ doc.status }}</span>
+        <button class="delete-btn" (click)="deleteDocument(doc.id)">Delete</button>
+    </il>
+    }
+</ul>
+}

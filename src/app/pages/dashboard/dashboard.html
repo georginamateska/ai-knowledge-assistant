@@ -1,37 +1,67 @@
-<h1>Dashboard</h1>
-<p class="subtitle">Overview of your documents and activity.</p>
+<header class="page-header">
+  <h1>Dashboard</h1>
+  <p class="subtitle">Overview of your documents and activity.</p>
+</header>
 
-<section class="stats">
-  @for (stat of stats; track stat.label) {
-    <div class="stat-card">
-      <span class="stat-icon">{{ stat.icon }}</span>
+<div class="top-grid">
+  <section class="card hero">
+    <h2>Overview</h2>
+
+    <div class="hero-numbers">
       <div>
-        <div class="stat-value">{{ stat.value }}</div>
-        <div class="stat-label">{{ stat.label }}</div>
+        <div class="big">{{ totalDocuments }}</div>
+        <div class="small">Documents</div>
+      </div>
+      <div>
+        <div class="big">{{ totalPages }}</div>
+        <div class="small">Total pages</div>
+      </div>
+      <div>
+        <div class="big">{{ readyCount }}</div>
+        <div class="small">Ready</div>
       </div>
     </div>
-  }
-</section>
 
-<section class="recent">
-  <h2>Recent documents</h2>
+    <div class="progress-label">{{ readyPercent }}% ready for questions</div>
+    <div class="progress">
+      <div class="progress-fill" [style.width.%]="readyPercent"></div>
+    </div>
+  </section>
 
-  @if (recentDocuments.length === 0) {
-    <p class="empty">No documents yet. Upload your first PDF to get started.</p>
-  } @else {
-    <ul class="doc-list">
-      @for (doc of recentDocuments; track doc.id) {
-        <li class="doc-row">
-          <div>
-            <div class="doc-name">{{ doc.name }}</div>
-            <div class="doc-meta">
-              {{ doc.pages }} pages · {{ doc.sizeMb }} MB ·
-              {{ doc.uploadedAt | date: 'mediumDate' }}
-            </div>
-          </div>
-          <span [class]="'status ' + doc.status">{{ doc.status }}</span>
-        </li>
-      }
-    </ul>
-  }
-</section>
+  <div class="side-cards">
+    <section class="card tile purple">
+      <span class="icon tile-icon"><img src="/pdf.png" alt="PDF"></span>
+      <div>
+        <div class="tile-title">Upload a PDF</div>
+        <div class="tile-sub">Add a new document</div>
+      </div>
+    </section>
+
+    <section class="card tile pink">
+      <span class="icon tile-icon"><img src="/AI.png" alt="AI"></span>
+      <div>
+        <div class="tile-title">Ask a question</div>
+        <div class="tile-sub">{{ readyCount }} documents ready</div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<h2 class="section-title">Recent documents</h2>
+
+@if (recentDocuments.length === 0) {
+  <p class="empty">No documents yet. Upload your first PDF to get started.</p>
+} @else {
+  <div class="doc-cards">
+    @for (doc of recentDocuments; track doc.id) {
+      <article class="card doc-card">
+        <span class="doc-badge"><img src="/pdf.png" alt="PDF"></span>
+        <div class="doc-name">{{ doc.name }}</div>
+        <div class="doc-meta">
+          {{ doc.pages }} pages · {{ doc.uploadedAt | date: 'mediumDate' }}
+        </div>
+        <span [class]="'status ' + doc.status">{{ doc.status }}</span>
+      </article>
+    }
+  </div>
+}

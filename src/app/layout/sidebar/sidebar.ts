@@ -11,6 +11,6 @@ export class Sidebar {
   navItems = [
     {label: 'Dashboard', path: '/dashboard', icon: '🏠' },
     {label: 'Documents', path: '/documents', icon: '📄' },
-    {label: 'AI Chat', path: '/chat', icon: '💬' },
+    {label: 'AI Chat', path: '/chat', img: '/AI.png' },
   ];
 }
