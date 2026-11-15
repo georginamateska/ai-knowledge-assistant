@@ -9,11 +9,8 @@
         routerLinkActive="active"
         [attr.title]="item.label"
       >
-      @if (item.img) {
+
         <img class="nav-img" [src]="item.img" [alt]="item.label" />
-      }@else{
-        <span class="icon">{{ item.icon }}</span>
-      }
       </a>
     }
   </nav>

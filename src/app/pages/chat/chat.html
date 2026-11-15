@@ -1,1 +1,51 @@
-<p>chats works!</p>
+<header class="page-header">
+  <h1>AI Chat</h1>
+  <p class="subtitle">Ask questions about your documents and get answers with sources.</p>
+</header>
+
+<section class="chat-card">
+  <div class="messages" #chatBox>
+    @for (msg of messages(); track msg.id) {
+      <div class="message" [class.user]="msg.role === 'user'">
+        <div class="bubble">
+          <p class="text">{{ msg.text }}</p>
+
+          @if (msg.sources && msg.sources.length > 0) {
+            <div class="sources">
+              <span class="sources-label">Sources</span>
+              @for (src of msg.sources; track $index) {
+                <span class="source-chip">
+                  <span class="icon">description</span>
+                  {{ src.documentName }} · p. {{ src.page }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (isTyping()) {
+      <div class="message">
+        <div class="bubble typing">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="input-row">
+    <input
+      type="text"
+      placeholder="Ask a question about your documents..."
+      [value]="draft()"
+      (input)="onInput($event)"
+      (keydown.enter)="send()"
+    />
+    <button class="send-btn" (click)="send()" [disabled]="!draft().trim() || isTyping()">
+      <span class="icon">send</span>
+    </button>
+  </div>
+</section>

@@ -14,7 +14,7 @@
 } @else{
 <ul class="doc-list">
     @for (doc of filteredDocuments(); track doc.id){
-    <il class="doc-row">
+    <li class="doc-row">
         <div class="doc-info">
             <div class="doc-name">📄 {{ doc.name }}</div>
             <div class="doc-meta">
@@ -24,7 +24,7 @@
         </div>
         <span [class]="'status ' + doc.status">{{ doc.status }}</span>
         <button class="delete-btn" (click)="deleteDocument(doc.id)">Delete</button>
-    </il>
+    </li>
     }
 </ul>
 }
