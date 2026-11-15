@@ -9,8 +9,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Sidebar {
   navItems = [
-    {label: 'Dashboard', path: '/dashboard', icon: '🏠' },
-    {label: 'Documents', path: '/documents', icon: '📄' },
+    {label: 'Dashboard', path: '/dashboard', img: '/home.svg' },
+    {label: 'Documents', path: '/documents', img: '/docLogo.png' },
     {label: 'AI Chat', path: '/chat', img: '/AI.png' },
   ];
 }

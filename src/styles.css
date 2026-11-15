@@ -21,10 +21,10 @@
 
   --success-bg: #d9f2e4;
   --success-text: #14633a;
-  --warning-bg: #fdecc8;
-  --warning-text: #8a5a00;
-  --danger-bg: #fbdcd6;
-  --danger-text: #a3301f;
+  --warning-bg: #e3e6fb;
+  --warning-text: #7f73ad;
+  --danger-bg: #f7cfd5;
+  --danger-text: #8c665f;
 
   --radius: 24px;
   --shadow: 0 8px 24px rgba(109, 91, 196, 0.12);
