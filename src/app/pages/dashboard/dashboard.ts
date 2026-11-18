@@ -1,24 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MOCK_DOCUMENTS } from '../../data/mock-documents';
+import { RouterLink } from '@angular/router';
+import { DocumentService } from '../../services/document.service';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   selector: 'app-dashboard',
   styleUrl: './dashboard.css',
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
-  documents = MOCK_DOCUMENTS;
+  private documentService = inject(DocumentService);
 
- totalDocuments = this.documents.length;
-  totalPages = this.documents.reduce((sum, d) => sum + d.pages, 0);
-  readyCount = this.documents.filter((d) => d.status === 'ready').length;
-  readyPercent = this.totalDocuments
-    ? Math.round((this.readyCount / this.totalDocuments) * 100)
-    : 0;
+  documents = this.documentService.documents;
 
-  recentDocuments = [...this.documents]
-    .sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt))
-    .slice(0, 4);
+  totalDocuments = computed(() => this.documents().length);
+  totalPages = computed(() => this.documents().reduce((sum, d) => sum + d.pages, 0));
+  readyCount = computed(() => this.documents().filter((d) => d.status === 'ready').length);
+  readyPercent = computed(() =>
+    this.totalDocuments() ? Math.round((this.readyCount() / this.totalDocuments()) * 100) : 0,
+  );
+
+  recentDocuments = computed(() =>
+    [...this.documents()]
+      .sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt))
+      .slice(0, 4),
+  );
 }

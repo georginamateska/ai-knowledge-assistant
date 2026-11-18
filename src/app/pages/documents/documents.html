@@ -1,6 +1,8 @@
 <h1>Documents</h1>
 <p class="subtitle">Manage the PDFs you have uploaded.</p>
 
+<a class="upload-link" routerLink="/upload">+ Upload PDF </a>
+
 <input class="search" type="text" placeholder="Search documents..." (input)="onSearch($event)" />
 
 @if (filteredDocuments().length === 0){

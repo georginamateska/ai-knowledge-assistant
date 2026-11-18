@@ -81,8 +81,14 @@ h1 {
   align-items: center;
   gap: 16px;
   color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s;
 }
 
+.tile:hover{
+    transform: translateY(-4px);
+}
 .tile.purple {
   background: var(--grad-purple);
 }

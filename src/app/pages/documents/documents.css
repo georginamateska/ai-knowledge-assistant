@@ -99,3 +99,14 @@ h1 {
 .empty {
   color: var(--text-muted);
 }
+.upload-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}

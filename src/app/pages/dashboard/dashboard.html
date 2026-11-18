@@ -9,41 +9,41 @@
 
     <div class="hero-numbers">
       <div>
-        <div class="big">{{ totalDocuments }}</div>
+        <div class="big">{{ totalDocuments() }}</div>
         <div class="small">Documents</div>
       </div>
       <div>
-        <div class="big">{{ totalPages }}</div>
+        <div class="big">{{ totalPages() }}</div>
         <div class="small">Total pages</div>
       </div>
       <div>
-        <div class="big">{{ readyCount }}</div>
+        <div class="big">{{ readyCount() }}</div>
         <div class="small">Ready</div>
       </div>
     </div>
 
-    <div class="progress-label">{{ readyPercent }}% ready for questions</div>
+    <div class="progress-label">{{ readyPercent() }}% ready for questions</div>
     <div class="progress">
       <div class="progress-fill" [style.width.%]="readyPercent"></div>
     </div>
   </section>
 
   <div class="side-cards">
-    <section class="card tile purple">
-      <span class="icon tile-icon"><img src="/pdf.png" alt="PDF"></span>
+    <a class="card tile purple" routerLink="/upload">
+      <span class="tile-icon"><img src="/pdf.png" alt="PDF"></span>
       <div>
         <div class="tile-title">Upload a PDF</div>
         <div class="tile-sub">Add a new document</div>
       </div>
-    </section>
+    </a>
 
-    <section class="card tile pink">
+    <a class="card tile pink" routerLink="/chat">
       <span class="icon tile-icon"><img src="/AI.png" alt="AI"></span>
       <div>
         <div class="tile-title">Ask a question</div>
-        <div class="tile-sub">{{ readyCount }} documents ready</div>
+        <div class="tile-sub">{{ readyCount() }} documents ready</div>
       </div>
-    </section>
+    </a>
   </div>
 </div>
 
@@ -53,7 +53,7 @@
   <p class="empty">No documents yet. Upload your first PDF to get started.</p>
 } @else {
   <div class="doc-cards">
-    @for (doc of recentDocuments; track doc.id) {
+    @for (doc of recentDocuments(); track doc.id) {
       <article class="card doc-card">
         <span class="doc-badge"><img src="/pdf.png" alt="PDF"></span>
         <div class="doc-name">{{ doc.name }}</div>

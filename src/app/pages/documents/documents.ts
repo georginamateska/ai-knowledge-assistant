@@ -1,15 +1,18 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MOCK_DOCUMENTS } from '../../data/mock-documents';
+import { DocumentService } from '../../services/document.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   selector: 'app-documents',
   styleUrl: './documents.css',
   templateUrl: './documents.html',
 })
 export class Documents {
-  documents = signal(MOCK_DOCUMENTS);
+  private documentService = inject(DocumentService);
+  
+  documents = this.documentService.documents;
   searchText = signal('');
 
   filteredDocuments = computed(() => {
@@ -24,7 +27,7 @@ export class Documents {
 
   deleteDocument(id: number) {
     if (confirm('Delete this document?')) {
-      this.documents.update((list) => list.filter((d) => d.id !== id));
+      this.documentService.remove(id);
     }
   }
 }

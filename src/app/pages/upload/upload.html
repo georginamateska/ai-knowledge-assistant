@@ -1,1 +1,56 @@
-<p>upload works!</p>
+<header class="page-header">
+  <h1>Upload</h1>
+  <p class="subtitle">Add a PDF to your library so you can ask questions about it.</p>
+</header>
+
+@if (!selectedFile()) {
+  <label
+    class="dropzone"
+    [class.dragging]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    <input type="file" accept=".pdf,application/pdf" (change)="onFileSelected($event)" hidden />
+    <img class="dropzone-img" src="/pdf.png" alt="PDF" />
+    <div class="dropzone-title">Drag and drop your PDF here</div>
+    <div class="dropzone-sub">or click to browse · PDF only · max 20 MB</div>
+  </label>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+} @else {
+  <section class="card file-card">
+    <div class="file-top">
+      <span class="file-badge"><img src="/pdf.png" alt="PDF" /></span>
+      <div class="file-info">
+        <div class="file-name">{{ selectedFile()!.name }}</div>
+        <div class="file-meta">{{ formatSize(selectedFile()!.size) }} MB</div>
+      </div>
+    </div>
+
+    @if (uploadState() !== 'idle') {
+      <div class="progress">
+        <div class="progress-fill" [style.width.%]="progress()"></div>
+      </div>
+      <div class="progress-label">
+        @if (uploadState() === 'done') {
+          Upload complete
+        } @else {
+          Uploading... {{ progress() }}%
+        }
+      </div>
+    }
+
+    <div class="actions">
+      @if (uploadState() === 'idle') {
+        <button class="btn primary" (click)="startUpload()">Upload</button>
+        <button class="btn" (click)="reset()">Cancel</button>
+      } @else if (uploadState() === 'done') {
+        <a class="btn primary" routerLink="/documents">View documents</a>
+        <button class="btn" (click)="reset()">Upload another</button>
+      }
+    </div>
+  </section>
+}
