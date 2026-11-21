@@ -1,4 +1,4 @@
-import { Component, computed, signal, inject } from '@angular/core';
+import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DocumentService } from '../../services/document.service';
 import { RouterLink } from '@angular/router';
@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './documents.css',
   templateUrl: './documents.html',
 })
-export class Documents {
+export class Documents implements OnInit{
   private documentService = inject(DocumentService);
   
   documents = this.documentService.documents;
@@ -28,6 +28,10 @@ export class Documents {
   deleteDocument(id: number) {
     if (confirm('Delete this document?')) {
       this.documentService.remove(id);
+    }   
+  } 
+  
+  ngOnInit(){
+      this.documentService.load();
     }
-  }
 }

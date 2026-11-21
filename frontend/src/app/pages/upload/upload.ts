@@ -66,24 +66,26 @@ export class Upload {
 
     this.selectedFile.set(file);
   }
+startUpload() {
+  const file = this.selectedFile();
+  if (!file) return;
 
-  startUpload() {
-    const file = this.selectedFile();
-    if (!file) return;
+  this.uploadState.set('uploading');
+  this.progress.set(40);
 
-    const id = this.documentService.add(file);
-    this.uploadState.set('uploading');
-    this.progress.set(0);
-
-    const timer = setInterval(() => {
-      this.progress.update((p) => Math.min(p + 10, 100));
-      if (this.progress() >= 100) {
-        clearInterval(timer);
-        this.uploadState.set('done');
-        this.documentService.markReady(id);
-      }
-    }, 300);
-  }
+  this.documentService.upload(file).subscribe({
+    next: () => {
+      this.progress.set(100);
+      this.uploadState.set('done');
+    },
+    error: (err) => {
+      this.uploadState.set('idle');
+      this.progress.set(0);
+      this.selectedFile.set(null);
+      this.errorMessage.set(err.error?.detail ?? 'Upload failed. Is the backend running?');
+    },
+  });
+};
 
   reset() {
     this.selectedFile.set(null);

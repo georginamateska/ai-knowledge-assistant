@@ -1,35 +1,46 @@
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { DocumentItem } from '../models/document.model';
-import { MOCK_DOCUMENTS } from '../data/mock-documents';
+
+const API = 'http://127.0.0.1:8000';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentService {
-  private readonly _documents = signal<DocumentItem[]>(MOCK_DOCUMENTS);
+  private http = inject(HttpClient);
+
+  private readonly _documents = signal<DocumentItem[]>([]);
   readonly documents = this._documents.asReadonly();
+  readonly loading = signal(false);
+  readonly error = signal('');
 
-  private nextId = Math.max(0, ...MOCK_DOCUMENTS.map((d) => d.id)) + 1;
-
-  add(file: File): number {
-    const id = this.nextId++;
-    const newDoc: DocumentItem = {
-      id,
-      name: file.name,
-      pages: Math.floor(Math.random() * 100) + 1,
-      sizeMb: Number((file.size / 1024 / 1024).toFixed(1)),
-      uploadedAt: new Date().toISOString().slice(0, 10),
-      status: 'processing',
-    };
-    this._documents.update((list) => [newDoc, ...list]);
-    return id;
+  load() {
+    this.loading.set(true);
+    this.error.set('');
+    this.http.get<DocumentItem[]>(`${API}/documents`).subscribe({
+      next: (docs) => {
+        this._documents.set(docs);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Could not reach the server. Is the backend running?');
+        this.loading.set(false);
+      },
+    });
   }
 
-  markReady(id: number) {
-    this._documents.update((list) =>
-      list.map((d) => (d.id === id ? { ...d, status: 'ready' } : d)),
-    );
+  upload(file: File): Observable<DocumentItem> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http
+      .post<DocumentItem>(`${API}/documents`, form)
+      .pipe(tap((doc) => this._documents.update((list) => [doc, ...list])));
   }
 
   remove(id: number) {
-    this._documents.update((list) => list.filter((d) => d.id !== id));
+    this.http.delete(`${API}/documents/${id}`).subscribe({
+      next: () => this._documents.update((list) => list.filter((d) => d.id !== id)),
+      error: () => this.error.set('Could not delete the document.'),
+    });
   }
 }

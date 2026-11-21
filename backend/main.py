@@ -1,6 +1,7 @@
 import json
 from datetime import date
 from pathlib import Path
+from fastapi.middleware.cors import CORSMiddleware
 
 import pymupdf
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -10,6 +11,13 @@ UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 app = FastAPI(title="AI Knowledge Assistant API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def next_id() -> int:
